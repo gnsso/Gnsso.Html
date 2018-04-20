@@ -15,7 +15,7 @@ namespace Gnsso.Html
         {
             cache = cache ?? new KeyedCache<Type, object[], HtmlConverter>(ConverterArgsEqualityComparer.Instance)
             {
-                DefaultValueKey = KeyedCache.DefaultArray<object>()
+                DefaultValueKey = Array.Empty<object>()
             };
         }
 

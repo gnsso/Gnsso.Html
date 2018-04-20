@@ -8,7 +8,6 @@ namespace Gnsso.Html
     public static class KeyedCache
     {
         public static readonly string DefaultStringKey = "<empty>";
-        public static T[] DefaultArray<T>() => new T[0];
     }
 
     public class KeyedCache<TKey, TValue>
