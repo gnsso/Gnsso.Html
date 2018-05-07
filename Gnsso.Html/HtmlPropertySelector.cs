@@ -53,7 +53,7 @@ namespace Gnsso.Html
                                 case "purified": return htmlNode.Purify().InnerText;
                                 case "purified-decoded": return htmlNode.Purify().DecodedInnerText();
                             }
-                        return htmlNode.InnerText;
+                        return htmlNode.DecodedInnerText();
                     case "html":
                         if (ag.Success)
                             switch (ag.Value)
