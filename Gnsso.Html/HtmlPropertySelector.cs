@@ -26,14 +26,14 @@ namespace Gnsso.Html
         internal string Execute(HtmlNode htmlNode)
         {
             if (!RegexUtils.TryMatch(selector, pattern, out var match))
-                throw new InvalidOperationException();
+                throw new ArgumentException("Property selector did not matched");
 
             var fg = match.Groups["f"];
             var lg = match.Groups["l"];
 
             var eg = match.Groups["e"];
             var kg = match.Groups["k"];
-            if (!kg.Success) throw new InvalidOperationException();
+            if (!kg.Success) throw new ArgumentException("Value group in property pattern did not matched");
             var ag = match.Groups["a"];
             
             if (eg.Success)
@@ -68,7 +68,7 @@ namespace Gnsso.Html
                     case "name":
                         return htmlNode.Name;
                     default:
-                        throw new ArgumentException();
+                        throw new ArgumentException("Value selector must be one of 'text, html, attr, name'");
                 }
             }
 

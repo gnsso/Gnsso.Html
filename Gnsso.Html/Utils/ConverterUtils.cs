@@ -26,7 +26,7 @@ namespace Gnsso.Html
                 return System.Convert.ChangeType(sourceValue, targetType);
             }
 
-            return null;
+            throw new ArgumentException($"Cannot convert from value: '{sourceValue}' to {targetType}");
         }
 
         public static bool IsPrimitive(Type targetType)

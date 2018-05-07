@@ -43,9 +43,9 @@ namespace Gnsso.Html
             foreach (Match match in matches)
             {
                 var descendantGroup = match.Groups["descendant"];
-                if (!descendantGroup.Success) throw new Exception();
+                if (!descendantGroup.Success) throw new ArgumentException("Descendant group in node pattern did not matched");
                 var tagGroup = match.Groups["tag"];
-                if (!tagGroup.Success) throw new Exception();
+                if (!tagGroup.Success) throw new ArgumentException("Tag group in node pattern did not matched");
                 ExecuteDescendant(descendantGroup.Value, ref elements);
                 ExecuteTag(tagGroup.Value, ref elements);
                 var attributesGroup = match.Groups["attributes"];
@@ -65,7 +65,7 @@ namespace Gnsso.Html
             }
             if (descendantSelector == ">>") elements = elements.SelectMany(s => s.Descendants());
             else if (descendantSelector == ">") elements = elements.SelectMany(s => s.ChildNodes);
-            else throw new Exception();
+            else throw new ArgumentException($"Descendant selector '{descendantSelector}' is not valid");
         }
 
         private void ExecuteTag(string tagSelector, ref IEnumerable<HtmlNode> elements)
@@ -88,7 +88,7 @@ namespace Gnsso.Html
             {
                 var match = Regex.Match(attributeSelector, attributePattern);
                 var nameGroup = match.Groups["name"];
-                if (!nameGroup.Success) throw new Exception();
+                if (!nameGroup.Success) throw new ArgumentException("Name group in attribute pattern did not matched");
                 var valueGroup = match.Groups["value"];
                 if (valueGroup.Success)
                 {
@@ -112,7 +112,7 @@ namespace Gnsso.Html
         private void ExecuteIndexer(string indexerSelector, ref IEnumerable<HtmlNode> elements)
         {
             var match = Regex.Match(indexerSelector, indexerPattern);
-            if (!match.Success) throw new Exception();
+            if (!match.Success) throw new ArgumentException("Indexer selector did not matched");
             var reverseonlyGroup = match.Groups["reverseonly"];
             if (reverseonlyGroup.Success)
             {
@@ -120,7 +120,7 @@ namespace Gnsso.Html
                 return;
             }
             var startGroup = match.Groups["start"];
-            if (!startGroup.Success) throw new Exception();
+            if (!startGroup.Success) throw new ArgumentException("Start group in indexer pattern did not matched");
             int start = int.Parse(startGroup.Value);
             int count = 1;
             var countGroup = match.Groups["count"];
