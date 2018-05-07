@@ -6,7 +6,7 @@ namespace Gnsso.Html
 {
     internal sealed class HtmlPropertySelector
     {
-        private const string pattern = @"(?<f>.*{)?(?:(?<e>.+)::)?(?<k>[0-9a-zA-Z]+)(?:\.(?<a>[0-9a-zA-Z-]+))?(?<l>}.*)?";
+        private const string pattern = @"(?<prefix>.*{)?(?:(?<object>.+)::)?(?<value>[0-9a-zA-Z]+)(?:\.(?<valueProp>[0-9a-zA-Z-]+))?(?<suffix>}.*)?";
 
         private string selector;
 
@@ -28,26 +28,27 @@ namespace Gnsso.Html
             if (!RegexUtils.TryMatch(selector, pattern, out var match))
                 throw new ArgumentException("Property selector did not matched");
 
-            var fg = match.Groups["f"];
-            var lg = match.Groups["l"];
+            var prefixGroup = match.Groups["prefix"];
+            var suffixGroup = match.Groups["suffix"];
 
-            var eg = match.Groups["e"];
-            var kg = match.Groups["k"];
-            if (!kg.Success) throw new ArgumentException("Value group in property pattern did not matched");
-            var ag = match.Groups["a"];
+            var objectGroup = match.Groups["object"];
+            var valueGroup = match.Groups["value"];
+            if (!valueGroup.Success)
+                throw new ArgumentException("Value group in property pattern did not matched");
+            var valuePropGroup = match.Groups["valueProp"];
             
-            if (eg.Success)
-                htmlNode = SelectorCache.GetOrAddObject(eg.Value).Execute(htmlNode).FirstOrDefault();
+            if (objectGroup.Success)
+                htmlNode = SelectorCache.GetOrAddObject(objectGroup.Value).Execute(htmlNode).FirstOrDefault();
 
             if (htmlNode == null) return null;
 
             string r()
             {
-                switch (kg.Value)
+                switch (valueGroup.Value)
                 {
                     case "text":
-                        if (ag.Success)
-                            switch (ag.Value)
+                        if (valuePropGroup.Success)
+                            switch (valuePropGroup.Value)
                             {
                                 case "decoded": return htmlNode.DecodedInnerText();
                                 case "purified": return htmlNode.Purify().InnerText;
@@ -55,15 +56,15 @@ namespace Gnsso.Html
                             }
                         return htmlNode.DecodedInnerText();
                     case "html":
-                        if (ag.Success)
-                            switch (ag.Value)
+                        if (valuePropGroup.Success)
+                            switch (valuePropGroup.Value)
                             {
                                 case "inner": return htmlNode.InnerHtml;
                                 case "outer": return htmlNode.OuterHtml;
                             }
                         return htmlNode.OuterHtml;
                     case "attr":
-                        if (ag.Success) return htmlNode.Attributes[ag.Value]?.Value;
+                        if (valuePropGroup.Success) return htmlNode.Attributes[valuePropGroup.Value]?.Value;
                         return null;
                     case "name":
                         return htmlNode.Name;
@@ -71,8 +72,14 @@ namespace Gnsso.Html
                         throw new ArgumentException("Value selector must be one of 'text, html, attr, name'");
                 }
             }
-
-            return (fg.Success ? fg.Value.TrimEnd('{') : "") + r() + (lg.Success ? lg.Value.TrimStart('}') : "");
+            if (prefixGroup.Success && suffixGroup.Success)
+            {
+                return prefixGroup.Value.TrimEnd('{') + r() + suffixGroup.Value.TrimStart('}');
+            }
+            else
+            {
+                return r();
+            }
         }
     }
 }
