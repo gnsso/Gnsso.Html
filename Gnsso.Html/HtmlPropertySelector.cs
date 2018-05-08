@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Gnsso.Html
 {
-    internal sealed class HtmlPropertySelector
+    public sealed class HtmlPropertySelector
     {
         private const string pattern = @"(?<prefix>.*{)?(?:(?<object>.+)::)?(?<value>[0-9a-zA-Z]+)(?:\.(?<valueProp>[0-9a-zA-Z-]+))?(?<suffix>}.*)?";
 
@@ -23,7 +23,7 @@ namespace Gnsso.Html
             return Execute(HtmlNode.CreateNode(html));
         }
 
-        internal string Execute(HtmlNode htmlNode)
+        public string Execute(HtmlNode htmlNode)
         {
             if (!RegexUtils.TryMatch(selector, pattern, out var match))
                 throw new ArgumentException("Property selector did not matched");

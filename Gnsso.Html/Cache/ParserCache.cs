@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gnsso.Html
 {
-    internal static class ParserCache
+    public static class ParserCache
     {
         private static KeyedCache<Type, HtmlParser> cache;
 

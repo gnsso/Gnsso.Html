@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Gnsso.Html
 {
-    internal class HtmlObjectSelector
+    public class HtmlObjectSelector
     {
         private const string nodePattern = @"(?<descendant><*>{1,2})[\s]*?(?<tag>[a-zA-Z][a-zA-Z0-9-]*|\*)(?<attributes>" + attributesPattern + @"*)?(?<indexer>\[(?:(?:reverse)|(?:reverse,)?\d{1,3}(?:\.\.\d{1,3})?)\])?";
         private const string attributesPattern = @"(?:#[a-zA-Z0-9-_]+|\.[a-zA-Z0-9-_]+|@[a-zA-Z][a-zA-Z0-9-]*(?:[|^!~]?=[a-zA-Z0-9-_]+)?)";
@@ -30,12 +30,12 @@ namespace Gnsso.Html
             return Execute(HtmlNode.CreateNode(html));
         }
 
-        internal IEnumerable<HtmlNode> Execute(HtmlNode node)
+        public IEnumerable<HtmlNode> Execute(HtmlNode node)
         {
             return Execute(new[] { node }.AsEnumerable());
         }
 
-        internal IEnumerable<HtmlNode> Execute(IEnumerable<HtmlNode> elements)
+        public IEnumerable<HtmlNode> Execute(IEnumerable<HtmlNode> elements)
         {
             if (noSelector) return elements;
 

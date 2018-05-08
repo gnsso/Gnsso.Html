@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gnsso.Html
 {
-    internal static class AttributeCache
+    public static class AttributeCache
     {
         private static KeyedCache<Type, HtmlObjectAttribute> objectAttributeCache;
         private static KeyedCache<Type, string, HtmlPropertyAttribute> propertyAttributeCache;

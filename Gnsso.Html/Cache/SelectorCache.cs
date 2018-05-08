@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gnsso.Html
 {
-    internal static class SelectorCache
+    public static class SelectorCache
     {
         private static KeyedCache<string, HtmlObjectSelector> objectCache;
         private static KeyedCache<string, HtmlPropertySelector> propertyCache;

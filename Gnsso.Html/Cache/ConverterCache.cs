@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gnsso.Html
 {
-    internal static class ConverterCache
+    public static class ConverterCache
     {
         private static KeyedCache<Type, object[], HtmlConverter> cache;
 
