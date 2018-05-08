@@ -70,7 +70,7 @@ namespace Gnsso.Html
             });
         }
 
-        private void AddSetter(Action<HtmlNode, TObject> propertySetter)
+        protected void AddSetter(Action<HtmlNode, TObject> propertySetter)
         {
             propertySetters.Add(propertySetter);
         }
@@ -161,6 +161,24 @@ namespace Gnsso.Html
         public static HtmlParser<T> Create<T>(string objectSelector, Func<T> objectInitializer)
         {
             return new HtmlParser<T>(objectSelector, objectInitializer);
+        }
+    }
+
+    public sealed class HtmlDictionaryParser : HtmlParser<IDictionary<string, string>>
+    {
+        public HtmlDictionaryParser(string objSelector) : base(objSelector, () => new Dictionary<string, string>())
+        {
+            
+        }
+
+        public void Set(string propertyName, string propertySelector)
+        {
+            AddSetter((node, dict) =>
+            {
+                var htmlPropertySelector = SelectorCache.GetOrAddProperty(propertySelector);
+                var executedPropertyValue = htmlPropertySelector.Execute(node);
+                dict[propertyName] = executedPropertyValue;
+            });
         }
     }
 }
