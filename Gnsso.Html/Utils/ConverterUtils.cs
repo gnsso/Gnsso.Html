@@ -32,7 +32,6 @@ namespace Gnsso.Html
         public static bool IsPrimitive(Type targetType)
         {
             return targetType == typeof(string) ||
-                targetType.IsEnum ||
                 targetType == typeof(bool) ||
                 targetType == typeof(byte) ||
                 targetType == typeof(char) ||
