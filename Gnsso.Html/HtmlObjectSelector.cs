@@ -8,7 +8,7 @@ namespace Gnsso.Html
 {
     public class HtmlObjectSelector
     {
-        private const string nodePattern = @"(?<descendant><*>{1,2})[\s]*?(?<tag>[a-zA-Z][a-zA-Z0-9-]*|\*)(?<attributes>" + attributesPattern + @"*)?(?<indexer>\[(?:(?:reverse)|(?:reverse,)?\d{1,3}(?:\.\.\d{1,3})?)\])?";
+        private const string nodePattern = @"(?<descendant><*>{1,2})[\s]*?(?<tag>[a-zA-Z][a-zA-Z0-9-]*|\*)(?<attributes>" + attributesPattern + @"*)?(?<indexer>\[(?:(?:r)|(?:r,)?\d{1,3}(?:\.\.\d{1,3})?)\])?";
         private const string attributesPattern = @"(?:#[a-zA-Z0-9-_]+|\.[a-zA-Z0-9-_]+|@[a-zA-Z][a-zA-Z0-9-]*(?:[|^!~]?=[a-zA-Z0-9-_]+)?)";
         private const string attributePattern = @"@(?<name>[a-zA-Z][a-zA-Z0-9-]*)(?:(?<operator>[|^!~])?=(?<value>[a-zA-Z0-9-_]+)?)?";
         private const string indexerPattern = @"\[((?<reverseonly>r)|(?<reverse>r,)?(?<start>\d{1,3})(?<count>\.\.\d{1,3})?)\]";
