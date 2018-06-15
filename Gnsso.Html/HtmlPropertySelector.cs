@@ -8,7 +8,7 @@ namespace Gnsso.Html
     {
         private const string pattern = @"(?<prefix>.*{)?(?:(?<object>.+)::)?(?<value>[0-9a-zA-Z]+)(?:\.(?<valueProp>[0-9a-zA-Z-]+))?(?<suffix>}.*)?";
 
-        private string selector;
+        private readonly string selector;
 
         public HtmlPropertySelector(string selector)
         {
