@@ -106,10 +106,8 @@ namespace Gnsso.Html
         private PropertyInfo GetPropertyInfo<TProperty>(Expression<Func<TObject, TProperty>> expression)
         {
             if (expression == null) throw new ArgumentNullException(nameof(expression));
-            var body = expression.Body as MemberExpression;
-            if (body == null) throw new ArgumentNullException(nameof(body));
-            var propertyInfo = body.Member as PropertyInfo;
-            if (propertyInfo == null) throw new ArgumentNullException(nameof(propertyInfo));
+            if (!(expression.Body is MemberExpression body)) throw new ArgumentNullException(nameof(body));
+            if (!(body.Member is PropertyInfo propertyInfo)) throw new ArgumentNullException(nameof(propertyInfo));
             return propertyInfo;
         }
     }
