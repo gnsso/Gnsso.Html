@@ -11,8 +11,8 @@ namespace Gnsso.Html
 {
     public class HtmlParser<TObject>
     {
-        private string objectSelector;
-        private Func<TObject> objectInitializer;
+        private readonly string objectSelector;
+        private readonly Func<TObject> objectInitializer;
         private List<Action<HtmlNode, TObject>> propertySetters;
 
         public HtmlParser(string objectSelector) : this(objectSelector, Expression.Lambda<Func<TObject>>(Expression.New(typeof(TObject))).Compile())
